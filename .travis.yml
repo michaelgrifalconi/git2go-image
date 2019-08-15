@@ -11,5 +11,5 @@ jobs:
       if: type = pull_request
       script: bash build-image golang
     - stage: deploy
-      if: type = push
+      if: type = push AND branch = master
       script: bash build-image all push
