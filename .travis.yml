@@ -1,0 +1,15 @@
+language: minimal
+services:
+  - docker
+
+jobs:
+  include:
+    - stage: test
+      if: type = pull_request
+      script: bash build-image base
+    - stage: test
+      if: type = pull_request
+      script: bash build-image golang
+    - stage: deploy
+      if: type = push
+      script: bash build-image all push
