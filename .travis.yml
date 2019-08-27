@@ -1,15 +1,31 @@
 language: minimal
 services:
-  - docker
-
+- docker
+env:
+  global:
+  - secure: Oo11MfiQSKeU+Fw3vM0mEFTonaOgjEryWDZw16sNJ28UvuLktqjtfp4QPo9wNmbi1f72RJw4MuofV/+kMCT1HCJ8EdVBTq386Ydc3DXpbjBsKDWJN5tbL6jBq3+S7O6l+qqWhButLjs9Ko3xaTLXX3HohFLv7Qs4nJg8Xz8b4F0DGmyHWdigAd2M0t9NX1FKasF6vTuScBNYFSpJh+408bBOFyFT8Bq/Cs+rIyLWCRpBU+2yOgYv99Y+MiroqZ51Jn+OmaEWGO29y76LDFrsGbBaAo0SHBoa+fxqwtUUmlo+KkQOowyW6/qWlWfQMcfbINkz7Ks9AUIJW24Z6JUMFMd+7j7j3SfZvzTES1uc8WmuiBi80aSf57SKLf7W3ArNjMt3f/oWMyQuwByynQtWp86GRaP6KUSvBlcJnp5eJxd6HCAkMu03LCmIgzTqNf0kVLRVkfhWj9jyWT+uYUD45KASopizm3nXICc24O9ViV6WLYW3YjY6MilaPmBShHnF421icr3s40hEQ9xMQmV86UrYR5Q0QWor88LmS39rXFsyxag/6u4PJhW9LJtdxMwp6UV497xPzMB1oQSTfxC5qChT5pwriSMWq24yW4qSGWMkc7lvKGhJug4yLmhuzcfEafGb+47cH4YSmEgJRMNvErDBTOFzl5CGCuSn+Pk+DPQ=
+  - secure: H84sS24yIk0wRnkHWwcjAMm9qcAxjWFEOYVw0rtd6yQY2WAeaEGgcpXvqcA+OiOu9wbULzXm3dcw9O8N8mschnyVeg1gtJjQE/LcpXSMjS61HFusWR4WOjyz2uhAyifn24v1Md/bgCqRImFJQ+gs66c8PL/1M3eLMIM6r4S5IEdzVuke5t/9faNT6bPrQTj7mJq6jv0YT3gB+VGX+YyKCrnRssGdfFQY5z1L4YC1DrzR3nmzUnh6y3UK1zRPQFht+Q0+PHSGV/HtYCWYPCsKxFEEx4wocNADBWtcLuX/LdPcfA1bnVtTXNEgI8ZuWHYyc5uemJ733bSLL4e8jowAJglpbh7p6l/LlLVGBSQ7T2tYTGsBipl4iQPLz5IewtRBLTTFiQBkyzP3v/qjl4I/PNFC/ePfpjKT4OaZBdpz9WqvvdRGppLqRqUU74ZcZ6UMnPvVC4PDipShBSeTYI1UWIwQMJjJmRDUQkjZ62k/bBmDuvpjS01RKpf0H5reRTSKDf/yNNdQIfwyIsUdoCt0TKez9rYn8q9mOseLup7MMt+1freX9NDkeyT4mYB39RVL/ig+3EvFHEvwKo59c3F3Q2hlYNrENrhgDrH3S/IXZYA1s9m5ReEBrLoehmSHzULmp5Xt9Dyxb0AdWX4qU+g4MlTOo1aOQ/Nq0GVKnzspyYc=
+  - secure: Y3qgYco6MD/A4XneM8RpvkUvwdr3uD0+vTXJgAJTt/Mzgb4jhhDU8RcpSApPAmEWUONFf2rnwSJMTLCnDvKK9rf0wG1eT1eszzT/HY+3Yw9dOt+Ld7JU9Uy4G3II/SvypMUdGLudsZJTem4tWbCEz1ERP4Rzt2VqcnwFRk2XEswY1VI8LHhWiGWuGKELHMsoSFC5dz3pKhlrJp71AAe1Pqb03xP0MvqZpDgHw35oUK7XV0oa6XRSAIaii9svakYkH5KxgvD4fuI6t9u+3/gRoYI4y38WGZvaieq313/4/jl29Ng2ipUMm00ymGlm2PimHu8whjfaLvO2udvEB28qt7JZsq9BCDOAoFhr2qfVMlP3MWdre2qQI1Fr3arBSYqVdZe33NM9tfBvnsiTvelv89XlQvnx3JpqjRyAlTEc1s8FRr/B9EgdciAc/5z7qeXJfbOlpvUBXZrfjXfeFQLxxFxGgkoveLy2jP85GcTkYCh9eCWCnikaD3PbW9FPgaaidP+MKmK0iUkGKPt3s7XgHy4IAgp/MAkRhu+iIFiZ3XOUsFf7Nx1FfHuVA6O8VNfyNi6LtNxTO5o37nK28e1j7CWJIwgn+u9xrBYy6+MBKqnrrDzdEczGxZ7mgARxbKuWqzJYGWrWy4SwFy0S1ihNbqyWXvcZc9iKcdUdyTz4k/M=
 jobs:
   include:
-    - stage: test
-      if: type = pull_request
-      script: bash build-image base
-    - stage: test
-      if: type = pull_request
-      script: bash build-image golang
-    - stage: deploy
-      if: type = push AND branch = master
-      script: bash build-image all push
+  - stage: test
+    if: type = pull_request
+    script: bash build-image base
+  - stage: test
+    if: type = pull_request
+    script: bash build-image golang
+  - stage: increment version or create release
+    if: branch = master AND type = push
+    script: if [[ $TRAVIS_COMMIT_MESSAGE != *"[New version]"* ]]; then ./new-tag ; fi;
+    before_deploy:
+      - git config --global user.email "build@travis-ci.com"
+      - git config --global user.name "Travis CI"
+      - export TRAVIS_TAG="v$(cat version)"
+      - git tag "$TRAVIS_TAG" -a -m "New release $TRAVIS_TAG"
+    deploy:
+      on:
+        condition: $TRAVIS_COMMIT_MESSAGE == *"[New version]"*
+      provider: releases
+      api_key: "$GITHUB_TOKEN"
+      skip_cleanup: true
+      

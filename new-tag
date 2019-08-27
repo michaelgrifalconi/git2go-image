@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+git config --global user.email "build@travis-ci.com"
+git config --global user.name "Travis CI"
+
+git checkout "$TRAVIS_BRANCH"
+
+echo $(( $(cat version) + 1 )) > version
+git add version
+GIT_TAG=$(cat version)
+git commit -m "[New version] v$GIT_TAG"
+
+
+#./build-image all push
+
+
+#git push https://michaelgrifalconi:"$GITHUB_TOKEN"@github.com/michaelgrifalconi/git2go-images refs/tags/v"$GIT_TAG"
+git push https://michaelgrifalconi:"$GITHUB_TOKEN"@github.com/michaelgrifalconi/git2go-images
