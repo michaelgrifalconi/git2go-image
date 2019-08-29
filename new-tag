@@ -13,7 +13,7 @@ GIT_TAG=$(cat version)
 git commit -m "[New version] v$GIT_TAG"
 
 
-#./build-image all push
+./build-image all push
 
 
 #git push https://michaelgrifalconi:"$GITHUB_TOKEN"@github.com/michaelgrifalconi/git2go-images refs/tags/v"$GIT_TAG"
