@@ -1,16 +1,16 @@
 #!/bin/bash -e
 
 if [[ "$1" == "base" || "$1" == "all" ]]; then
-  docker build --no-cache -t michaelgrifalconi/git2go:alpine-base-0 -f ./images/alpine-base/Dockerfile .
+  docker build --no-cache -t michaelgrifalconi/git2go:alpine-base-v"$(cat version)" -f ./images/alpine-base/Dockerfile .
   if [[ "$2" == "push" ]]; then
     echo "Here I would push the image to my docker account. IF I HAD ONE."
     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    docker tag 
     docker push michaelgrifalconi/git2go:alpine-base-v"$(cat version)"
-  fi
 fi
 
 if [[ "$1" == "golang" || "$1" == "all" ]]; then
-  docker build --no-cache -t michaelgrifalconi/git2go:alpine-golang-0 -f ./images/alpine-golang/Dockerfile .
+  docker build --no-cache -t michaelgrifalconi/git2go:alpine-golang-v"$(cat version)" -f ./images/alpine-golang/Dockerfile .
   if [[ "$2" == "push" ]]; then
    echo "Here I would push the image to my docker account. IF I HAD ONE."
     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin

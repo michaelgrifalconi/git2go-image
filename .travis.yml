@@ -16,7 +16,7 @@ jobs:
     script: bash build-image golang
   - stage: increment version or create release
     if: branch = master AND type = push
-    script: if [[ $TRAVIS_COMMIT_MESSAGE != *"[New version]"* ]]; then ./new-tag ; fi;
+    script: if [[ $TRAVIS_COMMIT_MESSAGE != *"[New version]"* ]]; then ./new-version ; fi;
     before_deploy:
       - git config --global user.email "build@travis-ci.com"
       - git config --global user.name "Travis CI"
