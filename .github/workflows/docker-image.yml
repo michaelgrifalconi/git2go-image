@@ -2,8 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
-
+    #branches: [ master ]
+    tags:
+      - 'v*'
 
 jobs:
   docker:
@@ -12,6 +13,14 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: michaelgrifalconi/git2go
+          tags: |
+            type=semver,pattern=alpine-base-v{{major}}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -31,12 +40,5 @@ jobs:
           context: .
           file: "./images/alpine-base/Dockerfile"
           push: true
-          tags: michaelgrifalconi/git2go:alpine-base-latest
-      -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: "./images/alpine-golang/Dockerfile"
-          push: true
-          tags: michaelgrifalconi/git2go:alpine-golang-latest
+          #https://github.com/docker/metadata-action#typesemver
+          tags: ${{ steps.meta.outputs.tags }}
