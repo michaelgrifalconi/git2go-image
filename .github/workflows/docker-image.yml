@@ -30,7 +30,7 @@ jobs:
         with:
           context: .
           file: "./images/alpine-base/Dockerfile"
-          push: false
+          push: true
           tags: michaelgrifalconi/git2go:alpine-base-latest
       -
         name: Build and push
@@ -38,5 +38,5 @@ jobs:
         with:
           context: .
           file: "./images/alpine-golang/Dockerfile"
-          push: false
+          push: true
           tags: michaelgrifalconi/git2go:alpine-golang-latest
