@@ -29,5 +29,14 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          push: true
-          tags: michaelgrifalconi/git2go:latest
+          file: "{context}/images/alpine-base/Dockerfile"
+          push: false
+          tags: michaelgrifalconi/git2go:alpine-base-latest
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: "{context}/images/alpine-golang/Dockerfile"
+          push: false
+          tags: michaelgrifalconi/git2go:alpine-golang-latest
